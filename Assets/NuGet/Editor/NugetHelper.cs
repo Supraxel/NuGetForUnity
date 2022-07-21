@@ -669,8 +669,12 @@
 
         private struct PriorityFramework { public int Priority; public string Framework; }
         private static readonly string[] unityFrameworks = new string[] { "unity" };
+        private static readonly string[] netStandardUnity2022Frameworks = new string[] {
+            "netstandard21", "netstandard20", "netstandard16", "netstandard15", "netstandard14", "netstandard13", "netstandard12", "netstandard11", "netstandard10"
+        };
         private static readonly string[] netStandardFrameworks = new string[] {
-            "netstandard20", "netstandard16", "netstandard15", "netstandard14", "netstandard13", "netstandard12", "netstandard11", "netstandard10" };
+            "netstandard20", "netstandard16", "netstandard15", "netstandard14", "netstandard13", "netstandard12", "netstandard11", "netstandard10"
+        };
         private static readonly string[] net4Unity2018Frameworks = new string[] { "net471", "net47" };
         private static readonly string[] net4Unity2017Frameworks = new string[] { "net462", "net461", "net46", "net452", "net451", "net45", "net403", "net40", "net4" };
         private static readonly string[] net3Frameworks = new string[] { "net35-unity full v3.5", "net35-unity subset v3.5", "net35", "net20", "net11" };
@@ -687,7 +691,10 @@
 
             if (usingStandard2)
             {
-                frameworkGroups.Add(netStandardFrameworks);
+                if (UnityVersion.Current.Major > 2022 || (UnityVersion.Current.Major == 2022 && UnityVersion.Current.Minor >= 2))
+                    frameworkGroups.Add(netStandardUnity2022Frameworks);
+                else
+                    frameworkGroups.Add(netStandardFrameworks);
             }
             else if (using46)
             {
